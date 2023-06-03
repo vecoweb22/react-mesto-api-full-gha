@@ -1,0 +1,11 @@
+.header__container {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+}
+
+@media (max-width: 400px) {
+  .header__container {
+    gap: 10px;
+  }
+}

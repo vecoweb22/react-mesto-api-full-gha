@@ -1,0 +1,14 @@
+.page {
+  max-width: 880px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  background: #000;
+}
+
+@media (max-width: 400px) {
+  .page {
+    margin: 0 auto;
+  }
+}
