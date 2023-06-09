@@ -1,4 +1,4 @@
-export const BASE_URL = 'https://auth.nomoreparties.co';
+export const BASE_URL = 'https://api.vecoweb22.nomoredomains.rocks';
 
 function getResponse(res) {
   if (!res.ok) {

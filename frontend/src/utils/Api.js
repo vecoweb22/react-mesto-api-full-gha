@@ -91,10 +91,10 @@ export class Api {
 }
 
 const api = new Api({
-  baseUrl: "https://mesto.nomoreparties.co/v1/cohort-60",
+  baseUrl: "https://api.vecoweb22.nomoredomains.rocks",
   headers: {
-    authorization: "8c6b41f0-4aa0-423e-837e-c598762b9d36",
     "Content-Type": "application/json",
+    authorization: `Bearer ${localStorage.getItem("jwt")}`,
   },
 });
 
