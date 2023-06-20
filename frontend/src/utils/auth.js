@@ -1,4 +1,5 @@
-export const BASE_URL = 'https://api.vecoweb22.nomoredomains.rocks';
+export const BASE_URL = 'http://localhost:3000';
+// export const BASE_URL = 'https://auth.nomoreparties.co';
 
 function getResponse(res) {
   if (!res.ok) {
@@ -16,6 +17,7 @@ export const register = (password, email) => {
       Accept: 'application/json',
       'Content-Type': 'application/json',
     },
+    credentials: "include",
     body: JSON.stringify({ password, email }),
   }).then((res) => getResponse(res));
 };
@@ -27,24 +29,33 @@ export const authorize = (password, email) => {
       Accept: 'application/json',
       'Content-Type': 'application/json',
     },
+    credentials: "include",
     body: JSON.stringify({ password, email }),
   })
     .then((res) => getResponse(res))
     .then((data) => {
-      if (data.token) {
-        localStorage.setItem('jwt', data.token);
+      if (data) {
+        localStorage.setItem('isAuth', true);
         return data;
       }
     });
 };
 
-export const getContent = (token) => {
+export const getContent = () => {
   return fetch(`${BASE_URL}/users/me`, {
     method: 'GET',
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
     },
+    credentials: "include",
   }).then((res) => getResponse(res));
 };
+
+export const logout = () => {
+  return fetch(`${BASE_URL}/signout`, {
+    method: 'POST',
+    credentials: "include",
+  })
+    .then((res) => getResponse(res))
+}

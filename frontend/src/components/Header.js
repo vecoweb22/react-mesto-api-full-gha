@@ -5,7 +5,8 @@ function Header(props) {
   const navigate = useNavigate();
   function signOut() {
     localStorage.removeItem("jwt");
-    navigate("/sign-in", { replace: true });
+    navigate("/signin", { replace: true });
+    // navigate("/sign-in", { replace: true });
   }
   return (
     <header className="header">

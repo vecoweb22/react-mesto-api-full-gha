@@ -40,7 +40,8 @@ function App() {
         .catch((err) => {
           setMessage({
             isSuccessfully: true,
-            text: err.message || "Что-то пошло не так! Попробуйте ещё раз.",
+            text: "Что-то пошло не так! Попробуйте ещё раз.",
+            // text: err.message || "Что-то пошло не так! Попробуйте ещё раз.",
           });
         });
     }
@@ -108,7 +109,8 @@ function App() {
       .catch((err) => {
         setMessage({
           isSuccessfully: true,
-          text: err.message || "Что-то пошло не так! Попробуйте ещё раз.",
+          text: "Что-то пошло не так! Попробуйте ещё раз.",
+          // text: err.message || "Что-то пошло не так! Попробуйте ещё раз.",
         });
       })
       .finally(() => {
@@ -125,7 +127,8 @@ function App() {
       .catch((err) => {
         setMessage({
           isSuccessfully: true,
-          text: err.message || "Что-то пошло не так! Попробуйте ещё раз.",
+          text: "Что-то пошло не так! Попробуйте ещё раз.",
+          // text: err.message || "Что-то пошло не так! Попробуйте ещё раз.",
         });
       })
       .finally(() => {
@@ -143,13 +146,15 @@ function App() {
           text: "Вы успешно зарегистрировались!",
         });
         setTimeout(() => setMessage(null), 1500);
-        navigate("/sign-in", { replace: true });
+        navigate("/signin", { replace: true });
+        // navigate("/sign-in", { replace: true });
       })
       .catch((err) => {
         console.log(err.error);
         setMessage({
           isSuccessfully: false,
-          text: err.message || "Что-то пошло не так!",
+          text: "Что-то пошло не так!",
+          // text: err.message || "Что-то пошло не так!",
         });
       });
   }
@@ -158,17 +163,20 @@ function App() {
     auth
       .authorize(password, email)
       .then((data) => {
-        if (data.token) {
+        if (data) {
+        // if (data.token) {
           defaultValues();
           setLoggedIn(true);
           navigate("/", { replace: true });
           setEmail(email);
         }
+        console.log(data);
       })
       .catch((err) =>
         setMessage({
           isSuccessfully: false,
-          text: err.message || "Что-то пошло не так!",
+          text: "Что-то пошло не так!",
+          // text: err.message || "Что-то пошло не так!",
         })
       );
   }
@@ -183,7 +191,8 @@ function App() {
       .catch((err) => {
         setMessage({
           isSuccessfully: true,
-          text: err.message || "Что-то пошло не так! Попробуйте ещё раз.",
+          text: "Что-то пошло не так! Попробуйте ещё раз.",
+          // text: err.message || "Что-то пошло не так! Попробуйте ещё раз.",
         });
       })
       .finally(() => {
@@ -193,7 +202,8 @@ function App() {
   }
 
   function handleCardLike(card) {
-    const isLiked = card.likes.some((i) => i._id === currentUser._id);
+    const isLiked = card.likes.some(id => id === currentUser._id);
+    // const isLiked = card.likes.some((i) => i._id === currentUser._id);
 
     api
       .toggleLike(card._id, isLiked)
@@ -205,7 +215,8 @@ function App() {
       .catch((err) => {
         setMessage({
           isSuccessfully: true,
-          text: err.message || "Что-то пошло не так! Попробуйте ещё раз.",
+          text: "Что-то пошло не так! Попробуйте ещё раз.",
+          // text: err.message || "Что-то пошло не так! Попробуйте ещё раз.",
         });
       });
   }
@@ -221,7 +232,8 @@ function App() {
       .catch((err) => {
         setMessage({
           isSuccessfully: true,
-          text: err.message || "Что-то пошло не так! Попробуйте ещё раз.",
+          text: "Что-то пошло не так! Попробуйте ещё раз.",
+          // text: err.message || "Что-то пошло не так! Попробуйте ещё раз.",
         });
       })
       .finally(() => {
@@ -237,6 +249,7 @@ function App() {
 
   function tokenCheck() {
     const jwt = localStorage.getItem("jwt");
+    console.log(jwt);
     if (jwt) {
       auth
         .getContent(jwt)
@@ -250,7 +263,8 @@ function App() {
         .catch((err) => {
           setMessage({
             isSuccessfully: true,
-            text: err.message || "Что-то пошло не так! Попробуйте ещё раз.",
+            text: "Что-то пошло не так! Попробуйте ещё раз.",
+            // text: err.message || "Что-то пошло не так! Попробуйте ещё раз.",
           });
         });
     }
@@ -258,6 +272,7 @@ function App() {
 
   useEffect(() => {
     tokenCheck();
+    console.log(tokenCheck());
   }, []);
 
   return (
@@ -285,12 +300,15 @@ function App() {
           <Route
             path="*"
             element={
-              loggedIn ? <Navigate to="/" /> : <Navigate to="/sign-in" />
+              loggedIn ? <Navigate to="/" /> : <Navigate to="/signin" />
+              // loggedIn ? <Navigate to="/" /> : <Navigate to="/sign-in" />
             }
           />
-          <Route path="/sign-in" element={<Login onLogin={handleLogin} />} />
+          <Route path="/signin" element={<Login onLogin={handleLogin} />} />
+          {/* <Route path="/sign-in" element={<Login onLogin={handleLogin} />} /> */}
           <Route
-            path="/sign-up"
+            path="/signup"
+            // path="/sign-up"
             element={<Register onRegister={handleRegister} />}
           />
         </Routes>

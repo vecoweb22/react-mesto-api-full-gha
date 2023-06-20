@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const User = require('../models/user');
-const { JWT_SECRET } = require('../utils/constants');
+const { secretKey } = require('../utils/constants');
 const BadRequestError = require('../errors/BadRequestError');
 const RegisterError = require('../errors/RegisterError');
 const AuthorizationError = require('../errors/AuthorizationError');
@@ -14,30 +14,22 @@ module.exports.createUser = (req, res, next) => {
   bcrypt.hash(password, 15)
     .then((hash) => {
       User.create({
-        name, email, about, password: hash, avatar,
+        email, password: hash, name, about, avatar,
       })
-        .then(() => res.status(201)
-          .send(
-            {
-              data: {
-                name,
-                email,
-                about,
-                avatar,
-              },
-            },
-          ))
+        .then((user) => {
+          const noPassIdUser = user.toObject({ useProjection: true });
+          return res.status(201).send(noPassIdUser);
+        })
         .catch((err) => {
           if (err.name === 'ValidationError') {
             return next(new BadRequestError('Пользователь передал некорректные данные'));
           }
           if (err.code === 11000) {
-            return next(new RegisterError('Пользователь с указанным e-mail уже зарегистрирован'));
+            return next(new RegisterError('Пользователь уже зарегистрирован'));
           }
           return next(err);
         });
-    })
-    .catch(next);
+    });
 };
 
 module.exports.login = (req, res, next) => {
@@ -57,13 +49,26 @@ module.exports.login = (req, res, next) => {
 
           const token = jwt.sign(
             { _id: user._id },
-            JWT_SECRET,
+            secretKey,
             { expiresIn: '7d' },
           );
 
-          return res.send({ token });
+          res.cookie('jwt', token, {
+            maxAge: 3600000,
+            // saneSite: 'none',
+            saneSite: true,
+            secure: true,
+            httpOnly: true,
+          });
+
+          return res.send(user.toJSON({ useProjection: true }));
         });
     })
 
     .catch(next);
+};
+
+module.exports.logout = (req, res) => {
+  res.clearCookie('jwt').send({ message: 'Вы вышли' });
+  res.end();
 };

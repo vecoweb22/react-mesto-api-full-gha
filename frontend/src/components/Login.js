@@ -14,7 +14,8 @@ function Login(props) {
 
   return (
     <main>
-      <Header link="/sign-up" linkName="Регистрация" />
+      <Header link="/signup" linkName="Регистрация" />
+      {/* <Header link="/sign-up" linkName="Регистрация" /> */}
       <div className="authorization">
         <h2 className="popup__title popup__title_color_white">Вход</h2>
         <form

@@ -13,7 +13,8 @@ function Register(props) {
 
   return (
     <main>
-      <Header link="/sign-in" linkName="Вход" />
+      <Header link="/signin" linkName="Вход" />
+      {/* <Header link="/sign-in" linkName="Вход" /> */}
       <div className="authorization">
         <h2 className="popup__title popup__title_color_white">Регистрация</h2>
         <form
@@ -54,7 +55,8 @@ function Register(props) {
           >
             Зарегистрироваться
           </button>
-          <Link to="/sign-in" className="link authorization__link">
+          <Link to="/signin" className="link authorization__link">
+          {/* <Link to="/sign-in" className="link authorization__link"> */}
             Уже зарегистрированы? Войти
           </Link>
         </form>
