@@ -112,18 +112,12 @@ export class Api {
 }
 
 const api = new Api({
-  baseUrl: "http://localhost:3000",
+  // baseUrl: "https://vecoweb22.nomoredomains.rocks",
+  baseUrl: "https://api.vecoweb22.nomoredomains.rocks",
+  // baseUrl: "http://localhost:3000",
   headers: {
     "Content-Type": "application/json",
   },
 });
-
-// const api = new Api({
-//   baseUrl: "https://mesto.nomoreparties.co/v1/cohort-60",
-//   headers: {
-//     authorization: "8c6b41f0-4aa0-423e-837e-c598762b9d36",
-//     "Content-Type": "application/json",
-//   },
-// });
 
 export default api;
