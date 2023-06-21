@@ -11,6 +11,6 @@
 
 IP-адрес 51.250.92.162
 
-Frontend https://vecoweb22.nomoredomains.rocks/
+Frontend https://vecoweb22.nomoredomains.rocks
 
-Backend https://api.vecoweb22.nomoredomains.rocks/
+Backend https://api.vecoweb22.nomoredomains.rocks
