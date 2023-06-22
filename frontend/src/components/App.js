@@ -32,16 +32,16 @@ function App() {
 
   useEffect(() => {
     if (loggedIn) {
-      Promise.all([api.getUserData(), api.getInitialCards()])
+      Promise.all([api.getUserData(), api.getInitCards()])
         .then(([userData, cardsData]) => {
           setCurentUser(userData);
           setCards(cardsData);
         })
         .catch((err) => {
+          console.log(err.error);
           setMessage({
             isSuccessfully: true,
             text: "Что-то пошло не так! Попробуйте ещё раз.",
-            // text: err.message || "Что-то пошло не так! Попробуйте ещё раз.",
           });
         });
     }
@@ -107,10 +107,10 @@ function App() {
       .setUserInfo(userInfo)
       .then((res) => setCurentUser(res))
       .catch((err) => {
+        console.log(err.error);
         setMessage({
           isSuccessfully: true,
           text: "Что-то пошло не так! Попробуйте ещё раз.",
-          // text: err.message || "Что-то пошло не так! Попробуйте ещё раз.",
         });
       })
       .finally(() => {
@@ -125,10 +125,10 @@ function App() {
       .editAvatar(avatar)
       .then((res) => setCurentUser(res))
       .catch((err) => {
+        console.log(err.error);
         setMessage({
           isSuccessfully: true,
           text: "Что-то пошло не так! Попробуйте ещё раз.",
-          // text: err.message || "Что-то пошло не так! Попробуйте ещё раз.",
         });
       })
       .finally(() => {
@@ -147,14 +147,12 @@ function App() {
         });
         setTimeout(() => setMessage(null), 1500);
         navigate("/signin", { replace: true });
-        // navigate("/sign-in", { replace: true });
       })
       .catch((err) => {
         console.log(err.error);
         setMessage({
           isSuccessfully: false,
           text: "Что-то пошло не так!",
-          // text: err.message || "Что-то пошло не так!",
         });
       });
   }
@@ -164,7 +162,6 @@ function App() {
       .authorize(password, email)
       .then((data) => {
         if (data) {
-        // if (data.token) {
           defaultValues();
           setLoggedIn(true);
           navigate("/", { replace: true });
@@ -172,13 +169,13 @@ function App() {
         }
         console.log(data);
       })
-      .catch((err) =>
+      .catch((err) => {
+        console.log(err.error);
         setMessage({
           isSuccessfully: false,
           text: "Что-то пошло не так!",
-          // text: err.message || "Что-то пошло не так!",
         })
-      );
+      });
   }
 
   function handleAddPlace(newCard) {
@@ -189,10 +186,10 @@ function App() {
         setCards([newCard, ...cards]);
       })
       .catch((err) => {
+        console.log(err.error);
         setMessage({
           isSuccessfully: true,
           text: "Что-то пошло не так! Попробуйте ещё раз.",
-          // text: err.message || "Что-то пошло не так! Попробуйте ещё раз.",
         });
       })
       .finally(() => {
@@ -204,7 +201,7 @@ function App() {
   function handleCardLike(card) {
     const isLiked = card.likes.some(id => id === currentUser._id);
     // const isLiked = card.likes.some((i) => i._id === currentUser._id);
-
+    console.log(isLiked);
     api
       .toggleLike(card._id, isLiked)
       .then((newCard) => {
@@ -213,10 +210,10 @@ function App() {
         );
       })
       .catch((err) => {
+        console.log(err.error);
         setMessage({
           isSuccessfully: true,
           text: "Что-то пошло не так! Попробуйте ещё раз.",
-          // text: err.message || "Что-то пошло не так! Попробуйте ещё раз.",
         });
       });
   }
@@ -230,10 +227,10 @@ function App() {
         setCards(newCards);
       })
       .catch((err) => {
+        console.log(err.error);
         setMessage({
           isSuccessfully: true,
           text: "Что-то пошло не так! Попробуйте ещё раз.",
-          // text: err.message || "Что-то пошло не так! Попробуйте ещё раз.",
         });
       })
       .finally(() => {
@@ -248,23 +245,22 @@ function App() {
   }
 
   function tokenCheck() {
-    const jwt = localStorage.getItem("jwt");
-    console.log(jwt);
-    if (jwt) {
+    const authUser = localStorage.getItem("authUser");
+    console.log(authUser);
+    if (authUser) {
       auth
-        .getContent(jwt)
+        .getContent()
         .then((res) => {
           if (res) {
             setLoggedIn(true);
             navigate("/", { replace: true });
-            setEmail(res.data.email);
+            setEmail(res.email);
           }
         })
         .catch((err) => {
           setMessage({
             isSuccessfully: true,
             text: "Что-то пошло не так! Попробуйте ещё раз.",
-            // text: err.message || "Что-то пошло не так! Попробуйте ещё раз.",
           });
         });
     }
@@ -278,73 +274,70 @@ function App() {
   return (
     <>
       <CurrentUserContext.Provider value={currentUser}>
-      <div className="root">
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <ProtectedRouteElement
-                loggedIn={loggedIn}
-                onCardClick={handleCardClick}
-                onEditProfile={handleEditProfileClick}
-                onAddPlace={handleAddPlaceClick}
-                onEditAvatar={handleEditAvatarClick}
-                onCardLike={handleCardLike}
-                onCardDelete={handleDeleteCardButtonClick}
-                email={email}
-                cards={cards}
-                element={Main}
-              />
-            }
-          />
-          <Route
-            path="*"
-            element={
-              loggedIn ? <Navigate to="/" /> : <Navigate to="/signin" />
-              // loggedIn ? <Navigate to="/" /> : <Navigate to="/sign-in" />
-            }
-          />
-          <Route path="/signin" element={<Login onLogin={handleLogin} />} />
-          {/* <Route path="/sign-in" element={<Login onLogin={handleLogin} />} /> */}
-          <Route
-            path="/signup"
-            // path="/sign-up"
-            element={<Register onRegister={handleRegister} />}
-          />
-        </Routes>
+        <div className="root">
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <ProtectedRouteElement
+                  loggedIn={loggedIn}
+                  onCardClick={handleCardClick}
+                  onEditProfile={handleEditProfileClick}
+                  onAddPlace={handleAddPlaceClick}
+                  onEditAvatar={handleEditAvatarClick}
+                  onCardLike={handleCardLike}
+                  onCardDelete={handleDeleteCardButtonClick}
+                  email={email}
+                  cards={cards}
+                  element={Main}
+                />
+              }
+            />
+            <Route
+              path="*"
+              element={
+                loggedIn ? <Navigate to="/" /> : <Navigate to="/signin" />
+              }
+            />
+            <Route path="/signin" element={<Login onLogin={handleLogin} />} />
+            <Route
+              path="/signup"
+              element={<Register onRegister={handleRegister} />}
+            />
+          </Routes>
 
-        <EditProfilePopup
-          isOpen={isEditProfilePopupOpen}
-          onClose={closeAllPopups}
-          onUpdateUser={handleUpdateUser}
-          textBtn={isLoading ? "Сохранение..." : "Сохранить"}
-        />
-        <AddPlacePopup
-          isOpen={isAddPlacePopupOpen}
-          onClose={closeAllPopups}
-          onAddPlace={handleAddPlace}
-          textBtn={isLoading ? "Создание..." : "Создать"}
-        />
-        <EditAvatarPopup
-          isOpen={isEditAvatarPopupOpen}
-          onClose={closeAllPopups}
-          onUpdateAvatar={handleUpdateAvatar}
-          textBtn={isLoading ? "Сохранение..." : "Сохранить"}
-        />
-        <PopupWithConfirm
-          isOpen={isDeleteCardPopupOpen}
-          onClose={closeAllPopups}
-          onCardDelete={handleCardDelete}
-          card={selectedCard}
-          textBtn={isLoading ? "Удаление..." : "Да"}
-        />
-        <ImagePopup
-          isOpen={isImagePopupOpen}
-          onClose={closeAllPopups}
-          card={selectedCard}
-        />
-        <InfoToolTip message={message} onClose={closeAllPopups} />
-      </div>
+          <EditProfilePopup
+            isOpen={isEditProfilePopupOpen}
+            onClose={closeAllPopups}
+            onUpdateUser={handleUpdateUser}
+            textBtn={isLoading ? "Сохранение..." : "Сохранить"}
+          />
+          <AddPlacePopup
+            isOpen={isAddPlacePopupOpen}
+            onClose={closeAllPopups}
+            onAddPlace={handleAddPlace}
+            textBtn={isLoading ? "Создание..." : "Создать"}
+          />
+          <EditAvatarPopup
+            isOpen={isEditAvatarPopupOpen}
+            onClose={closeAllPopups}
+            onUpdateAvatar={handleUpdateAvatar}
+            textBtn={isLoading ? "Сохранение..." : "Сохранить"}
+          />
+          <PopupWithConfirm
+            isOpen={isDeleteCardPopupOpen}
+            onClose={closeAllPopups}
+            onCardDelete={handleCardDelete}
+            card={selectedCard}
+            textBtn={isLoading ? "Удаление..." : "Да"}
+          />
+          <ImagePopup
+            isOpen={isImagePopupOpen}
+            onClose={closeAllPopups}
+            card={selectedCard}
+          />
+          <InfoToolTip message={message} onClose={closeAllPopups} />
+        </div>
       </CurrentUserContext.Provider>
     </>
   );

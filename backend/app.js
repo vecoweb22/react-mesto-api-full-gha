@@ -9,11 +9,6 @@ const { allowedCorsOrigins } = require('./middlewares/corsWare');
 const app = express();
 const { requestLogger } = require('./middlewares/logger');
 
-// allowedCorsOrigins = [
-//   'http://localhost:3001',
-//   'http://localhost:3000',
-// ];
-
 const corsOptions = {
   origin: allowedCorsOrigins,
   optionsSuccessStatus: 200,

@@ -4,9 +4,9 @@ import { Link, useNavigate } from "react-router-dom";
 function Header(props) {
   const navigate = useNavigate();
   function signOut() {
-    localStorage.removeItem("jwt");
+    localStorage.removeItem("authUser");
+    props.onLogout()
     navigate("/signin", { replace: true });
-    // navigate("/sign-in", { replace: true });
   }
   return (
     <header className="header">

@@ -4,41 +4,41 @@ export class Api {
     this._headers = headers;
   }
 
-  _checkResponce(res) {
+  _checkResp(res) {
     if (res.ok) {
       return res.json();
     } else {
       return Promise.reject(`Ошибка: ${res.status}`);
     }
   }
-// ???
-  _request(url, method, body) {
-    const options = {
-      headers: this._headers,
-      credentials: "include",
-      method,
-    };
-    if (body !== undefined) {
-      options.body = JSON.stringify(body);
-    }
-    return fetch(url, options).then(this._checkResponce);
-  }
+// // ???
+//   _request(url, method, body) {
+//     const options = {
+//       headers: this._headers,
+//       credentials: "include",
+//       method,
+//     };
+//     if (body !== undefined) {
+//       options.body = JSON.stringify(body);
+//     }
+//     return fetch(url, options).then(this._checkResp);
+//   }
 
 
-  getInitialCards() {
+  getInitCards() {
     const cardsUrl = `${this._baseUrl}/cards`;
     return fetch(cardsUrl, {
-      // headers: this._headers,
+      headers: this._headers,
       credentials: "include",
-    }).then((res) => this._checkResponce(res));
+    }).then((res) => this._checkResp(res));
   }
 
   getUserData() {
     const userInfoUrl = `${this._baseUrl}/users/me`;
     return fetch(userInfoUrl, {
-      // headers: this._headers,
+      headers: this._headers,
       credentials: "include",
-    }).then((res) => this._checkResponce(res));
+    }).then((res) => this._checkResp(res));
   }
 
   setUserInfo(userData) {
@@ -50,7 +50,7 @@ export class Api {
         name: userData.name,
         about: userData.about,
       }),
-    }).then((res) => this._checkResponce(res));
+    }).then((res) => this._checkResp(res));
   }
 
   addNewCard(data) {
@@ -62,15 +62,15 @@ export class Api {
         name: data.name,
         link: data.link,
       }),
-    }).then((res) => this._checkResponce(res));
+    }).then((res) => this._checkResp(res));
   }
 
   deleteCard(cardId) {
     return fetch(`${this._baseUrl}/cards/${cardId}`, {
       method: "DELETE",
-      // headers: this._headers,
+      headers: this._headers,
       credentials: "include",
-    }).then((res) => this._checkResponce(res));
+    }).then((res) => this._checkResp(res));
   }
 
   _setLike(cardId) {
@@ -78,7 +78,7 @@ export class Api {
       method: "PUT",
       headers: this._headers,
       credentials: "include",
-    }).then((res) => this._checkResponce(res));
+    }).then((res) => this._checkResp(res));
   }
 
   _deleteLike(cardId) {
@@ -86,12 +86,12 @@ export class Api {
       method: "DELETE",
       headers: this._headers,
       credentials: "include",
-    }).then((res) => this._checkResponce(res));
+    }).then((res) => this._checkResp(res));
   }
 
 
   toggleLike(cardId, isLiked) {
-    // console.log(isLiked);
+    console.log(isLiked);
     if (isLiked) {
       return this._deleteLike(cardId);
     } else {
@@ -107,14 +107,14 @@ export class Api {
       body: JSON.stringify({
         avatar: link,
       }),
-    }).then((res) => this._checkResponce(res));
+    }).then((res) => this._checkResp(res));
   }
 }
 
 const api = new Api({
   // baseUrl: "https://vecoweb22.nomoredomains.rocks",
-  baseUrl: "https://api.vecoweb22.nomoredomains.rocks",
-  // baseUrl: "http://localhost:3000",
+  // baseUrl: "https://api.vecoweb22.nomoredomains.rocks",
+  baseUrl: "http://localhost:3000",
   headers: {
     "Content-Type": "application/json",
   },

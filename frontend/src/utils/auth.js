@@ -1,8 +1,8 @@
 // export const BASE_URL = 'https://vecoweb22.nomoredomains.rocks';
-export const BASE_URL = 'https://api.vecoweb22.nomoredomains.rocks';
-// export const BASE_URL = 'http://localhost:3000';
+// export const BASE_URL = 'https://api.vecoweb22.nomoredomains.rocks';
+export const BASE_URL = 'http://localhost:3000';
 
-function getResponse(res) {
+function getResp(res) {
   if (!res.ok) {
     return res.json().then((res) => {
       throw new Error(res.message);
@@ -20,7 +20,7 @@ export const register = (password, email) => {
     },
     credentials: "include",
     body: JSON.stringify({ password, email }),
-  }).then((res) => getResponse(res));
+  }).then((res) => getResp(res));
 };
 
 export const authorize = (password, email) => {
@@ -33,10 +33,10 @@ export const authorize = (password, email) => {
     credentials: "include",
     body: JSON.stringify({ password, email }),
   })
-    .then((res) => getResponse(res))
+    .then((res) => getResp(res))
     .then((data) => {
       if (data) {
-        localStorage.setItem('isAuth', true);
+        localStorage.setItem('authUser', true);
         return data;
       }
     });
@@ -50,7 +50,7 @@ export const getContent = () => {
       'Content-Type': 'application/json',
     },
     credentials: "include",
-  }).then((res) => getResponse(res));
+  }).then((res) => getResp(res));
 };
 
 export const logout = () => {
@@ -58,5 +58,5 @@ export const logout = () => {
     method: 'POST',
     credentials: "include",
   })
-    .then((res) => getResponse(res))
+    .then((res) => getResp(res))
 }

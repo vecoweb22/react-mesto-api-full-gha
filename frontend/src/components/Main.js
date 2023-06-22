@@ -13,7 +13,6 @@ function Main(props) {
   return (
     <>
       <Header link="/signin" linkName="Выйти" email={props.email} />
-      {/* <Header link="/sign-in" linkName="Выйти" email={props.email} /> */}
       <main className="main">
         <section className="profile">
           <div className="profile__avatar">

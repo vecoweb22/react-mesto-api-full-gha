@@ -1,8 +1,8 @@
 const allowedCorsOrigins = [
-  'https://vecoweb22.nomoredomains.rocks',
-  'http://vecoweb22.nomoredomains.rocks',
-  'localhost:3000',
-  'http://localhost',
+  // 'https://vecoweb22.nomoredomains.rocks',
+  // 'http://vecoweb22.nomoredomains.rocks',
+  // 'localhost:3000',
+  // 'http://localhost',
   'http://localhost:3001',
   'http://localhost:3000',
 ];

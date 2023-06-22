@@ -9,7 +9,6 @@ function InfoToolTip(props) {
           }`}
         />
         <h3 className="popup__title popup__title_type_info">{message?.text}</h3>
-        {/* <h3 className="popup__title popup__title_type_info">{message?.text}</h3> */}
         <button
           type="button"
           className="popup__close-button"
