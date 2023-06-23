@@ -41,7 +41,7 @@ function App() {
           console.log(err.error);
           setMessage({
             isSuccessfully: true,
-            text: "Что-то пошло не так! Попробуйте ещё раз",
+            text: "Что-то пошло не так! Попробуйте ещё раз.",
           });
         });
     }
@@ -199,9 +199,9 @@ function App() {
   }
 
   function handleCardLike(card) {
-    const isLiked = card.likes.some(id => id === currentUser._id);
+    // const isLiked = card.likes.some(id => id === currentUser._id);
+    const isLiked = card.likes.some(like => like._id || like === currentUser._id);
     // const isLiked = card.likes.some((i) => i._id === currentUser._id);
-    console.log(isLiked);
     api
       .toggleLike(card._id, isLiked)
       .then((newCard) => {

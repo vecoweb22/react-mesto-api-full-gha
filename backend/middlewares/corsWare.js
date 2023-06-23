@@ -3,8 +3,8 @@ const allowedCorsOrigins = [
   'http://vecoweb22.nomoredomains.rocks',
   // 'localhost:3000',
   // 'http://localhost',
-  'http://localhost:3001',
-  'http://localhost:3000',
+  // 'http://localhost:3001',
+  // 'http://localhost:3000',
 ];
 
 const corsWare = (req, res, next) => {
