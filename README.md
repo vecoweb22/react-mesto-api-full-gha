@@ -9,7 +9,7 @@
 
 ## Ссылки на проект
 
-IP-адрес 51.250.92.162
+IP 51.250.92.162
 
 Frontend https://vecoweb22.nomoredomains.rocks
 
