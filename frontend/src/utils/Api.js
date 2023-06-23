@@ -11,19 +11,6 @@ export class Api {
       return Promise.reject(`Ошибка: ${res.status}`);
     }
   }
-// // ???
-//   _request(url, method, body) {
-//     const options = {
-//       headers: this._headers,
-//       credentials: "include",
-//       method,
-//     };
-//     if (body !== undefined) {
-//       options.body = JSON.stringify(body);
-//     }
-//     return fetch(url, options).then(this._checkResp);
-//   }
-
 
   getInitCards() {
     const cardsUrl = `${this._baseUrl}/cards`;
@@ -113,8 +100,8 @@ export class Api {
 
 const api = new Api({
   // baseUrl: "https://vecoweb22.nomoredomains.rocks",
-  // baseUrl: "https://api.vecoweb22.nomoredomains.rocks",
-  baseUrl: "http://localhost:3000",
+  baseUrl: "https://api.vecoweb22.nomoredomains.rocks",
+  // baseUrl: "http://localhost:3000",
   headers: {
     "Content-Type": "application/json",
   },

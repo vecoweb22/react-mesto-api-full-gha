@@ -1,6 +1,6 @@
 // export const BASE_URL = 'https://vecoweb22.nomoredomains.rocks';
-// export const BASE_URL = 'https://api.vecoweb22.nomoredomains.rocks';
-export const BASE_URL = 'http://localhost:3000';
+export const BASE_URL = 'https://api.vecoweb22.nomoredomains.rocks';
+// export const BASE_URL = 'http://localhost:3000';
 
 function getResp(res) {
   if (!res.ok) {

@@ -41,7 +41,7 @@ function App() {
           console.log(err.error);
           setMessage({
             isSuccessfully: true,
-            text: "Что-то пошло не так! Попробуйте ещё раз.",
+            text: "Что-то пошло не так! Попробуйте ещё раз",
           });
         });
     }
